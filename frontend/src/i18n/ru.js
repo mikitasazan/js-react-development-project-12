@@ -43,6 +43,11 @@ const ru = {
       messageCount_few: '{{count}} сообщения',
       messageCount_many: '{{count}} сообщений',
     },
+    notify: {
+      channelCreated: 'Канал создан',
+      channelRenamed: 'Канал переименован',
+      channelRemoved: 'Канал удалён',
+    },
     errors: {
       required: 'Обязательное поле',
       length3to20: 'От 3 до 20 символов',
@@ -52,6 +57,7 @@ const ru = {
       channelExists: 'Должно быть уникальным',
       wrongCredentials: 'Неверные имя пользователя или пароль',
       network: 'Ошибка соединения',
+      dataLoad: 'Ошибка загрузки данных',
     },
     notFound: {
       title: 'Страница не найдена',

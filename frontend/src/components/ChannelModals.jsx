@@ -1,3 +1,4 @@
+import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 
@@ -15,13 +16,27 @@ const ChannelModals = ({ channels }) => {
   const target = channels.find((c) => c.id === modal.channelId);
   const takenNames = channels.map((c) => c.name);
 
+  const notify = (message) => notifications.show({ message, color: 'green' });
+
   const add = useMutation({
     mutationFn: createChannel,
-    onSuccess: (channel) => setCurrentChannel(channel.id),
+    onSuccess: (channel) => {
+      setCurrentChannel(channel.id);
+      notify(t('notify.channelCreated'));
+    },
   });
-  const rename = useMutation({ mutationFn: renameChannel });
+  const rename = useMutation({
+    mutationFn: renameChannel,
+    onSuccess: () => notify(t('notify.channelRenamed')),
+  });
 
-  const remove = useMutation({ mutationFn: removeChannel, onSuccess: closeModal });
+  const remove = useMutation({
+    mutationFn: removeChannel,
+    onSuccess: () => {
+      closeModal();
+      notify(t('notify.channelRemoved'));
+    },
+  });
 
   return (
     <>

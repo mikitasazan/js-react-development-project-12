@@ -9,6 +9,7 @@ import {
 } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 
+import clean from '../lib/profanity.js';
 import useUiStore from '../store/uiStore.js';
 
 const Channels = ({ channels }) => {
@@ -33,7 +34,7 @@ const Channels = ({ channels }) => {
         <Stack gap={4}>
           {channels.map((channel) => {
             const active = channel.id === currentChannelId;
-            const label = `# ${channel.name}`;
+            const label = `# ${clean(channel.name)}`;
 
             return (
               <Group key={channel.id} gap={0} wrap="nowrap">
