@@ -1,17 +1,18 @@
 install:
-	pnpm install
+	npm ci
+	npm ci --prefix frontend
 
 lint:
-	pnpm run lint
+	npm run lint --prefix frontend
 
 build:
-	pnpm run build
+	npm run build --prefix frontend
 
 start:
-	pnpm exec start-server -s ./frontend/dist
+	npx start-server -s ./frontend/dist
 
 start-frontend:
-	pnpm --dir frontend run dev
+	npm run dev --prefix frontend
 
 develop:
 	make start & make start-frontend

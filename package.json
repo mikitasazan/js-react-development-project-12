@@ -5,8 +5,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "pnpm --dir frontend run build",
-    "lint": "pnpm --dir frontend run lint",
+    "build": "npm run build --prefix frontend",
+    "lint": "npm run lint --prefix frontend",
     "start": "start-server -s ./frontend/dist"
   },
   "dependencies": {
