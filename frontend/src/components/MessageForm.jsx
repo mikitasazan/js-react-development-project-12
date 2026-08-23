@@ -10,13 +10,18 @@ const MessageForm = ({ onSend, disabled }) => {
     initialValues: { body: '' },
   });
 
+  // The text stays in place when sending fails, so it can be sent again.
   const handleSubmit = async ({ body }) => {
     if (!body.trim()) {
       return;
     }
 
-    await onSend(body);
-    form.reset();
+    try {
+      await onSend(body);
+      form.reset();
+    } catch {
+      form.setFieldError('body', t('errors.network'));
+    }
   };
 
   return (

@@ -8,21 +8,34 @@ import {
   Stack,
   Text,
 } from '@mantine/core';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 
 import Channels from '../components/Channels.jsx';
 import MessageForm from '../components/MessageForm.jsx';
 import Messages from '../components/Messages.jsx';
+import useChatSocket from '../hooks/useChatSocket.js';
+import useAuthStore from '../store/authStore.js';
 import useUiStore from '../store/uiStore.js';
+import client from '../api/client.js';
 import { channelsQuery, messagesQuery } from '../api/chat.js';
+import { apiRoutes } from '../routes.js';
 
 const ChatPage = () => {
   const { t } = useTranslation();
   const currentChannelId = useUiStore((state) => state.currentChannelId);
+  const username = useAuthStore((state) => state.username);
+
+  useChatSocket();
 
   const channels = useQuery(channelsQuery);
   const messages = useQuery(messagesQuery);
+
+  const sendMessage = useMutation({
+    mutationFn: (body) => client
+      .post(apiRoutes.messages(), { body, channelId: currentChannelId, username })
+      .then((r) => r.data),
+  });
 
   if (channels.isPending || messages.isPending) {
     return <Center h="100vh"><Loader /></Center>;
@@ -51,7 +64,7 @@ const ChatPage = () => {
             <Text c="dimmed">{t('chat.messageCount', { count: channelMessages.length })}</Text>
           </Group>
           <Messages messages={channelMessages} />
-          <MessageForm onSend={() => {}} />
+          <MessageForm onSend={sendMessage.mutateAsync} disabled={sendMessage.isPending} />
         </Stack>
       </Card>
     </Flex>
