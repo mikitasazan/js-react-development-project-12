@@ -11,6 +11,14 @@ const ru = {
       noAccount: 'Нет аккаунта?',
       signUp: 'Регистрация',
     },
+    chat: {
+      channels: 'Каналы',
+      newMessage: 'Введите сообщение...',
+      send: 'Отправить',
+      messageCount_one: '{{count}} сообщение',
+      messageCount_few: '{{count}} сообщения',
+      messageCount_many: '{{count}} сообщений',
+    },
     errors: {
       wrongCredentials: 'Неверные имя пользователя или пароль',
       network: 'Ошибка соединения',
