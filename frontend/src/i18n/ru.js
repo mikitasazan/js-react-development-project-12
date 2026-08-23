@@ -11,8 +11,22 @@ const ru = {
       noAccount: 'Нет аккаунта?',
       signUp: 'Регистрация',
     },
+    buttons: {
+      cancel: 'Отменить',
+      remove: 'Удалить',
+      rename: 'Переименовать',
+      send: 'Отправить',
+    },
+    channels: {
+      title: 'Каналы',
+      add: 'Добавить канал',
+      rename: 'Переименовать канал',
+      remove: 'Удалить канал',
+      removeConfirm: 'Уверены?',
+      manage: 'Управление каналом',
+      name: 'Имя канала',
+    },
     chat: {
-      channels: 'Каналы',
       newMessage: 'Введите сообщение...',
       send: 'Отправить',
       messageCount_one: '{{count}} сообщение',
@@ -20,6 +34,8 @@ const ru = {
       messageCount_many: '{{count}} сообщений',
     },
     errors: {
+      channelLength: 'От 3 до 20 символов',
+      channelExists: 'Должно быть уникальным',
       wrongCredentials: 'Неверные имя пользователя или пароль',
       network: 'Ошибка соединения',
     },

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
 import socket from '../api/socket.js';
+import useUiStore from '../store/uiStore.js';
 
 /** Keeps the cached channels and messages in step with the server. */
 const useChatSocket = () => {
@@ -26,9 +27,15 @@ const useChatSocket = () => {
       ));
     };
 
+    // Anyone standing in a channel that is gone falls back to the default one.
     const removeChannel = ({ id }) => {
       queryClient.setQueryData(['channels'], (old = []) => old.filter((c) => c.id !== id));
       queryClient.setQueryData(['messages'], (old = []) => old.filter((m) => m.channelId !== id));
+
+      const ui = useUiStore.getState();
+      if (ui.currentChannelId === id) {
+        ui.resetCurrentChannel();
+      }
     };
 
     socket.on('newMessage', addMessage);

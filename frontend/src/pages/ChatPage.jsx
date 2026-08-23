@@ -11,6 +11,7 @@ import {
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 
+import ChannelModals from '../components/ChannelModals.jsx';
 import Channels from '../components/Channels.jsx';
 import MessageForm from '../components/MessageForm.jsx';
 import Messages from '../components/Messages.jsx';
@@ -53,21 +54,24 @@ const ChatPage = () => {
   const channelMessages = messages.data.filter((m) => m.channelId === currentChannelId);
 
   return (
+    <>
+    <ChannelModals channels={channels.data} />
     <Flex h="100vh" p="xs" gap="xs">
       <Card withBorder w={260} p="xs" style={{ flexShrink: 0 }}>
         <Channels channels={channels.data} />
       </Card>
       <Card withBorder flex={1} p={0}>
         <Stack gap={0} h="100%">
-          <Group px="md" py="sm" bg="gray.0">
-            <Text fw={700}>{currentChannel ? `# ${currentChannel.name}` : ''}</Text>
-            <Text c="dimmed">{t('chat.messageCount', { count: channelMessages.length })}</Text>
+          <Group px="md" py="sm" bg="gray.0" wrap="nowrap">
+            <Text fw={700} truncate>{currentChannel ? `# ${currentChannel.name}` : ''}</Text>
+            <Text c="dimmed" style={{ whiteSpace: 'nowrap' }}>{t('chat.messageCount', { count: channelMessages.length })}</Text>
           </Group>
           <Messages messages={channelMessages} />
           <MessageForm onSend={sendMessage.mutateAsync} disabled={sendMessage.isPending} />
         </Stack>
       </Card>
     </Flex>
+    </>
   );
 };
 
