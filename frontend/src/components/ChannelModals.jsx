@@ -12,6 +12,8 @@ const ChannelModals = ({ channels }) => {
   const modal = useUiStore((state) => state.modal);
   const closeModal = useUiStore((state) => state.closeModal);
   const setCurrentChannel = useUiStore((state) => state.setCurrentChannel);
+  const currentChannelId = useUiStore((state) => state.currentChannelId);
+  const resetCurrentChannel = useUiStore((state) => state.resetCurrentChannel);
 
   const target = channels.find((c) => c.id === modal.channelId);
   const takenNames = channels.map((c) => c.name);
@@ -32,7 +34,12 @@ const ChannelModals = ({ channels }) => {
 
   const remove = useMutation({
     mutationFn: api.removeChannel,
+    // Normally the server's own removeChannel socket event does this; this
+    // covers the case where that event never reaches back to us.
     onSuccess: () => {
+      if (modal.channelId === currentChannelId) {
+        resetCurrentChannel();
+      }
       closeModal();
       notify(t('notify.channelRemoved'));
     },

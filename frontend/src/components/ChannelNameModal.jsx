@@ -36,8 +36,13 @@ const ChannelNameModal = ({
     try {
       await onSubmit(name.trim());
       onClose();
-    } catch {
-      form.setFieldError('name', t('errors.network'));
+    } catch (error) {
+      // A 409 means someone else took this name between our validation and
+      // the request landing; anything else is a plain connectivity failure.
+      const message = error.response?.status === 409
+        ? t('errors.channelExists')
+        : t('errors.network');
+      form.setFieldError('name', message);
     }
   };
 
