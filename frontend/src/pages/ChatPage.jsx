@@ -39,12 +39,12 @@ const ChatPage = () => {
   });
 
   if (channels.isPending || messages.isPending) {
-    return <Center h="100vh"><Loader /></Center>;
+    return <Center flex={1}><Loader /></Center>;
   }
 
   if (channels.isError || messages.isError) {
     return (
-      <Center h="100vh" p="md">
+      <Center flex={1} p="md">
         <Alert color="red">{t('errors.network')}</Alert>
       </Center>
     );
@@ -56,7 +56,7 @@ const ChatPage = () => {
   return (
     <>
     <ChannelModals channels={channels.data} />
-    <Flex h="100vh" p="xs" gap="xs">
+    <Flex flex={1} mih={0} p="xs" gap="xs">
       <Card withBorder w={260} p="xs" style={{ flexShrink: 0 }}>
         <Channels channels={channels.data} />
       </Card>

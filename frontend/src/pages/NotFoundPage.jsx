@@ -8,7 +8,7 @@ const NotFoundPage = () => {
   const { t } = useTranslation();
 
   return (
-    <Container py="xl" ta="center">
+    <Container py="xl" ta="center" flex={1}>
       <Title order={1}>404</Title>
       <Text mt="sm">{t('notFound.title')}</Text>
       <Anchor component={Link} to={appRoutes.chat} mt="md" display="inline-block">

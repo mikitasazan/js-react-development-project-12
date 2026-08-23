@@ -11,6 +11,16 @@ const ru = {
       noAccount: 'Нет аккаунта?',
       signUp: 'Регистрация',
     },
+    auth: {
+      logOut: 'Выйти',
+    },
+    signup: {
+      title: 'Регистрация',
+      username: 'Имя пользователя',
+      password: 'Пароль',
+      confirmPassword: 'Подтвердите пароль',
+      submit: 'Зарегистрироваться',
+    },
     buttons: {
       cancel: 'Отменить',
       remove: 'Удалить',
@@ -34,7 +44,11 @@ const ru = {
       messageCount_many: '{{count}} сообщений',
     },
     errors: {
-      channelLength: 'От 3 до 20 символов',
+      required: 'Обязательное поле',
+      length3to20: 'От 3 до 20 символов',
+      passwordLength: 'Не менее 6 символов',
+      passwordsDiffer: 'Пароли должны совпадать',
+      userExists: 'Такой пользователь уже существует',
       channelExists: 'Должно быть уникальным',
       wrongCredentials: 'Неверные имя пользователя или пароль',
       network: 'Ошибка соединения',

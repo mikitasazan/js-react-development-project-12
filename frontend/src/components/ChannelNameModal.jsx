@@ -21,7 +21,7 @@ const ChannelNameModal = ({
     validate: {
       name: (value) => {
         const name = value.trim();
-        const lengthError = hasLength({ min: 3, max: 20 }, t('errors.channelLength'))(name);
+        const lengthError = hasLength({ min: 3, max: 20 }, t('errors.length3to20'))(name);
 
         if (lengthError) {
           return lengthError;

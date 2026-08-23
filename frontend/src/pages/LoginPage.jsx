@@ -43,7 +43,7 @@ const LoginPage = () => {
   });
 
   return (
-    <Center mih="100vh" p="md">
+    <Center flex={1} p="md">
       <Card withBorder shadow="sm" padding="xl" radius="md" w={400}>
         <form onSubmit={form.onSubmit((values) => login.mutate(values))}>
           <Stack>
