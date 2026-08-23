@@ -3,10 +3,13 @@ const ru = {
     app: {
       name: 'Hexlet Chat',
     },
-    auth: {
-      logIn: 'Войти',
-      logOut: 'Выйти',
-      signUp: 'Зарегистрироваться',
+    login: {
+      title: 'Войти',
+      username: 'Ваш ник',
+      password: 'Пароль',
+      submit: 'Войти',
+      noAccount: 'Нет аккаунта?',
+      signUp: 'Регистрация',
     },
     notFound: {
       title: 'Страница не найдена',
