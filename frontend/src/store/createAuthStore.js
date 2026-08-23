@@ -1,7 +1,8 @@
-import { create } from 'zustand';
+import { createStore } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-const useAuthStore = create(
+/** A fresh store per application run: nothing carries over between runs. */
+const createAuthStore = () => createStore(
   persist(
     (set) => ({
       token: null,
@@ -13,9 +14,4 @@ const useAuthStore = create(
   ),
 );
 
-export const getAuthHeader = () => {
-  const { token } = useAuthStore.getState();
-  return token ? { Authorization: `Bearer ${token}` } : {};
-};
-
-export default useAuthStore;
+export default createAuthStore;

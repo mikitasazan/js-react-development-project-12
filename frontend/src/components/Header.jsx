@@ -2,7 +2,7 @@ import { Anchor, Button, Group } from '@mantine/core';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import useAuthStore from '../store/authStore.js';
+import { useAuthStore } from '../contexts/appContext.js';
 import { appRoutes } from '../routes.js';
 
 const Header = () => {

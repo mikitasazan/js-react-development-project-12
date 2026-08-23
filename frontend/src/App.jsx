@@ -6,7 +6,7 @@ import ChatPage from './pages/ChatPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import SignupPage from './pages/SignupPage.jsx';
-import useAuthStore from './store/authStore.js';
+import { useAuthStore } from './contexts/appContext.js';
 import { appRoutes } from './routes.js';
 
 const PrivateOutlet = () => {

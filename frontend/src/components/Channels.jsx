@@ -10,7 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import clean from '../lib/profanity.js';
-import useUiStore from '../store/uiStore.js';
+import { useUiStore } from '../contexts/appContext.js';
 
 const Channels = ({ channels }) => {
   const { t } = useTranslation();

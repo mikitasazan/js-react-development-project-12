@@ -1,8 +1,8 @@
-import { create } from 'zustand';
+import { createStore } from 'zustand';
 
 export const defaultChannelId = '1';
 
-const useUiStore = create((set) => ({
+const createUiStore = () => createStore((set) => ({
   currentChannelId: defaultChannelId,
   modal: { type: null, channelId: null },
   setCurrentChannel: (id) => set({ currentChannelId: id }),
@@ -11,4 +11,4 @@ const useUiStore = create((set) => ({
   closeModal: () => set({ modal: { type: null, channelId: null } }),
 }));
 
-export default useUiStore;
+export default createUiStore;

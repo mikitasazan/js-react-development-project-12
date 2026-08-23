@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 
 import ChannelNameModal from './ChannelNameModal.jsx';
 import RemoveChannelModal from './RemoveChannelModal.jsx';
-import useUiStore from '../store/uiStore.js';
-import { createChannel, removeChannel, renameChannel } from '../api/chat.js';
+import { useApi, useUiStore } from '../contexts/appContext.js';
 
 const ChannelModals = ({ channels }) => {
   const { t } = useTranslation();
+  const api = useApi();
   const modal = useUiStore((state) => state.modal);
   const closeModal = useUiStore((state) => state.closeModal);
   const setCurrentChannel = useUiStore((state) => state.setCurrentChannel);
@@ -19,19 +19,19 @@ const ChannelModals = ({ channels }) => {
   const notify = (message) => notifications.show({ message, color: 'green' });
 
   const add = useMutation({
-    mutationFn: createChannel,
+    mutationFn: api.createChannel,
     onSuccess: (channel) => {
       setCurrentChannel(channel.id);
       notify(t('notify.channelCreated'));
     },
   });
   const rename = useMutation({
-    mutationFn: renameChannel,
+    mutationFn: api.renameChannel,
     onSuccess: () => notify(t('notify.channelRenamed')),
   });
 
   const remove = useMutation({
-    mutationFn: removeChannel,
+    mutationFn: api.removeChannel,
     onSuccess: () => {
       closeModal();
       notify(t('notify.channelRemoved'));

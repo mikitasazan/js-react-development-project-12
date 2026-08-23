@@ -12,13 +12,13 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import client from '../api/client.js';
-import useAuthStore from '../store/authStore.js';
-import { apiRoutes, appRoutes } from '../routes.js';
+import { useApi, useAuthStore } from '../contexts/appContext.js';
+import { appRoutes } from '../routes.js';
 
 const SignupPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const api = useApi();
   const logIn = useAuthStore((state) => state.logIn);
 
   const form = useForm({
@@ -34,9 +34,7 @@ const SignupPage = () => {
   });
 
   const signUp = useMutation({
-    mutationFn: ({ username, password }) => client
-      .post(apiRoutes.signup(), { username, password })
-      .then((r) => r.data),
+    mutationFn: ({ username, password }) => api.signUp({ username, password }),
     onSuccess: (data) => {
       logIn(data);
       navigate(appRoutes.chat);

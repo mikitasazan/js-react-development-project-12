@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
-import socket from '../api/socket.js';
-import useUiStore from '../store/uiStore.js';
+import { useSocket, useUiStore } from '../contexts/appContext.js';
 
 /** Keeps the cached channels and messages in step with the server. */
 const useChatSocket = () => {
   const queryClient = useQueryClient();
+  const socket = useSocket();
+  const resetCurrentChannel = useUiStore((state) => state.resetCurrentChannel);
+  const currentChannelId = useUiStore((state) => state.currentChannelId);
 
   useEffect(() => {
     const addMessage = (message) => {
@@ -32,9 +34,8 @@ const useChatSocket = () => {
       queryClient.setQueryData(['channels'], (old = []) => old.filter((c) => c.id !== id));
       queryClient.setQueryData(['messages'], (old = []) => old.filter((m) => m.channelId !== id));
 
-      const ui = useUiStore.getState();
-      if (ui.currentChannelId === id) {
-        ui.resetCurrentChannel();
+      if (currentChannelId === id) {
+        resetCurrentChannel();
       }
     };
 
@@ -42,16 +43,14 @@ const useChatSocket = () => {
     socket.on('newChannel', addChannel);
     socket.on('renameChannel', renameChannel);
     socket.on('removeChannel', removeChannel);
-    socket.connect();
 
     return () => {
       socket.off('newMessage', addMessage);
       socket.off('newChannel', addChannel);
       socket.off('renameChannel', renameChannel);
       socket.off('removeChannel', removeChannel);
-      socket.disconnect();
     };
-  }, [queryClient]);
+  }, [queryClient, socket, currentChannelId, resetCurrentChannel]);
 };
 
 export default useChatSocket;

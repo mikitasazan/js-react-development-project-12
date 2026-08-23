@@ -18,22 +18,30 @@ import Channels from '../components/Channels.jsx';
 import MessageForm from '../components/MessageForm.jsx';
 import Messages from '../components/Messages.jsx';
 import useChatSocket from '../hooks/useChatSocket.js';
-import useAuthStore from '../store/authStore.js';
-import useUiStore from '../store/uiStore.js';
 import clean from '../lib/profanity.js';
-import client from '../api/client.js';
-import { channelsQuery, messagesQuery } from '../api/chat.js';
-import { apiRoutes } from '../routes.js';
+import {
+  useApi,
+  useAuthStore,
+  useSocket,
+  useUiStore,
+} from '../contexts/appContext.js';
 
 const ChatPage = () => {
   const { t } = useTranslation();
+  const api = useApi();
+  const socket = useSocket();
   const currentChannelId = useUiStore((state) => state.currentChannelId);
   const username = useAuthStore((state) => state.username);
 
   useChatSocket();
 
-  const channels = useQuery(channelsQuery);
-  const messages = useQuery(messagesQuery);
+  useEffect(() => {
+    socket.connect();
+    return () => socket.disconnect();
+  }, [socket]);
+
+  const channels = useQuery({ queryKey: ['channels'], queryFn: api.getChannels });
+  const messages = useQuery({ queryKey: ['messages'], queryFn: api.getMessages });
 
   // failureReason covers the request that failed but is still being retried:
   // without it a dead network leaves the user on a spinner with no message.
@@ -49,9 +57,7 @@ const ChatPage = () => {
   }, [loadFailed, t]);
 
   const sendMessage = useMutation({
-    mutationFn: (body) => client
-      .post(apiRoutes.messages(), { body, channelId: currentChannelId, username })
-      .then((r) => r.data),
+    mutationFn: (body) => api.createMessage({ body, channelId: currentChannelId, username }),
     onError: () => notifications.show({ message: t('errors.network'), color: 'red' }),
   });
 
