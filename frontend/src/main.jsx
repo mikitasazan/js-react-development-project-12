@@ -13,9 +13,13 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
 import initI18n from './i18n/index.js';
 
+// networkMode 'always' matters: on the default 'online' a lost network puts
+// requests on pause instead of failing them, and the user is left watching a
+// spinner with no error.
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: { retry: 1, refetchOnWindowFocus: false },
+    queries: { retry: 1, refetchOnWindowFocus: false, networkMode: 'always' },
+    mutations: { networkMode: 'always' },
   },
 });
 

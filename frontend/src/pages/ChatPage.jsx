@@ -35,7 +35,12 @@ const ChatPage = () => {
   const channels = useQuery(channelsQuery);
   const messages = useQuery(messagesQuery);
 
-  const loadFailed = channels.isError || messages.isError;
+  // failureReason covers the request that failed but is still being retried:
+  // without it a dead network leaves the user on a spinner with no message.
+  const hasData = Boolean(channels.data && messages.data);
+  const loadFailed = Boolean(
+    channels.error || messages.error || channels.failureReason || messages.failureReason,
+  );
 
   useEffect(() => {
     if (loadFailed) {
@@ -50,16 +55,16 @@ const ChatPage = () => {
     onError: () => notifications.show({ message: t('errors.network'), color: 'red' }),
   });
 
-  if (channels.isPending || messages.isPending) {
-    return <Center flex={1}><Loader /></Center>;
-  }
-
-  if (loadFailed) {
+  if (loadFailed && !hasData) {
     return (
       <Center flex={1} p="md">
         <Alert color="red">{t('errors.dataLoad')}</Alert>
       </Center>
     );
+  }
+
+  if (!hasData) {
+    return <Center flex={1}><Loader /></Center>;
   }
 
   const currentChannel = channels.data.find((c) => c.id === currentChannelId);
